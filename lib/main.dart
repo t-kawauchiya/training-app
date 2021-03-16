@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:training_app/exercise_page.dart';
 import 'package:training_app/history_page.dart';
@@ -5,7 +6,9 @@ import 'package:training_app/measure_page.dart';
 import 'package:training_app/workout_page.dart';
 import 'profile_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
   MaterialApp();
 }
@@ -15,15 +18,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(
+        title: 'Flutter Demo Home Page',
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+final String title = 'title';
 
-  final String title;
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key? key, title}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
