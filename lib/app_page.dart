@@ -1,41 +1,22 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:training_app/exercise_page.dart';
-import 'package:training_app/history_page.dart';
-import 'package:training_app/measure_page.dart';
+import 'package:training_app/profile_page.dart';
 import 'package:training_app/workout_page.dart';
-import 'profile_page.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-  MaterialApp();
-}
+import 'exercise_page.dart';
+import 'history_page.dart';
+import 'measure_page.dart';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: MyHomePage(
-        title: 'Flutter Demo Home Page',
-      ),
-    );
-  }
-}
-
-final String title = 'title';
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, title}) : super(key: key);
+class AppPage extends StatefulWidget {
+  AppPage({Key? key, title}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _AppPageState createState() => _AppPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _AppPageState extends State<AppPage> {
   int _currentIndex = 0;
+  String uid = '';
 
   void _onItemTapped(int index) {
     setState(() {
