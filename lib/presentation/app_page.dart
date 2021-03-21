@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:training_app/profile_page.dart';
-import 'package:training_app/workout_page.dart';
-
-import 'exercise_page.dart';
-import 'history_page.dart';
-import 'measure_page.dart';
+import 'profile/profile_page.dart';
+import 'workout/workout_page.dart';
+import 'exercise/exercise_page.dart';
+import 'history/history_page.dart';
+import 'measure/measure_page.dart';
 
 class AppPage extends StatefulWidget {
-  AppPage({Key? key, title}) : super(key: key);
+  final String uid;
+  AppPage(this.uid);
 
   @override
   _AppPageState createState() => _AppPageState();
@@ -16,24 +16,28 @@ class AppPage extends StatefulWidget {
 
 class _AppPageState extends State<AppPage> {
   int _currentIndex = 0;
-  String uid = '';
+  String _uid = '';
 
   void _onItemTapped(int index) {
     setState(() {
+      _uid = widget.uid;
       _currentIndex = index;
     });
   }
 
-  List<Widget> _pageList = <Widget>[
-    ProfilePage(),
-    HistoryPage(),
-    WorkoutPage(),
-    ExercisePage(),
-    MeasurePage(),
-  ];
+  List<Widget> buildPageList() {
+    return <Widget>[
+      ProfilePage(),
+      HistoryPage(_uid),
+      WorkoutPage(),
+      ExercisePage(),
+      MeasurePage(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _pageList = buildPageList();
     return Scaffold(
       body: _pageList[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

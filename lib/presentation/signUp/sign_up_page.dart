@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:training_app/signUp/sign_up_model.dart';
+import 'package:training_app/presentation/signUp/sign_up_model.dart';
 
 class SignUpPage extends StatelessWidget {
   @override

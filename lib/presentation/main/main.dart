@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:training_app/signUp/sign_up_page.dart';
+import 'package:training_app/presentation/signUp/sign_up_page.dart';
 
 import '../app_page.dart';
 import 'main_model.dart';
@@ -55,11 +55,12 @@ class MyApp extends StatelessWidget {
                       child: Text('ログインする'),
                       onPressed: () async {
                         try {
-                          await model.loginAndReturnUid();
+                          String uid = await model.loginAndReturnUid();
                           _showDialog(context, 'ログインしました');
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => AppPage()),
+                            MaterialPageRoute(
+                                builder: (context) => AppPage(uid)),
                           );
                         } catch (e) {
                           _showDialog(context, e.toString());
