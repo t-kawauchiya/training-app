@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
     final passwordController = TextEditingController();
     return MaterialApp(
       title: 'Flutter Demo',
+      theme: ThemeData.dark(),
       home: ChangeNotifierProvider<SignInModel>(
         create: (_) => SignInModel(),
         child: Scaffold(
@@ -56,8 +57,8 @@ class MyApp extends StatelessWidget {
                       onPressed: () async {
                         try {
                           String uid = await model.loginAndReturnUid();
-                          _showDialog(context, 'ログインしました');
-                          Navigator.push(
+                          //await _showDialog(context, 'ログインしました');
+                          await Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => AppPage(uid)),

@@ -37,7 +37,7 @@ packages:
     source: hosted
     version: "1.1.0"
   cloud_firestore:
-    dependency: "direct main"
+    dependency: "direct presentation.main"
     description:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
@@ -65,7 +65,7 @@ packages:
     source: hosted
     version: "1.15.0"
   cupertino_icons:
-    dependency: "direct main"
+    dependency: "direct presentation.main"
     description:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
@@ -79,7 +79,7 @@ packages:
     source: hosted
     version: "1.2.0"
   firebase_auth:
-    dependency: "direct main"
+    dependency: "direct presentation.main"
     description:
       name: firebase_auth
       url: "https://pub.dartlang.org"
@@ -100,7 +100,7 @@ packages:
     source: hosted
     version: "1.0.2"
   firebase_core:
-    dependency: "direct main"
+    dependency: "direct presentation.main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
@@ -121,7 +121,7 @@ packages:
     source: hosted
     version: "1.0.1"
   flutter:
-    dependency: "direct main"
+    dependency: "direct presentation.main"
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -192,7 +192,7 @@ packages:
     source: hosted
     version: "2.0.0"
   provider:
-    dependency: "direct main"
+    dependency: "direct presentation.main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
@@ -246,7 +246,7 @@ packages:
     source: hosted
     version: "0.2.19"
   timeago:
-    dependency: "direct main"
+    dependency: "direct presentation.main"
     description:
       name: timeago
       url: "https://pub.dartlang.org"

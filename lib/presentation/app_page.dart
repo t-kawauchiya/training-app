@@ -41,39 +41,39 @@ class _AppPageState extends State<AppPage> {
     return Scaffold(
       body: _pageList[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        currentIndex: _currentIndex,
+        fixedColor: Colors.blue,
+        backgroundColor: Colors.amber,
+        unselectedItemColor: Colors.white,
+        elevation: 15,
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
               Icons.account_box,
-              color: Colors.black54,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.access_time,
-              color: Colors.black54,
             ),
             label: 'Business',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.add_outlined,
-              color: Colors.black54,
             ),
             label: 'Business',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.business,
-              color: Colors.black54,
             ),
             label: 'Business',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.business,
-              color: Colors.black54,
             ),
             label: 'Business',
           ),
