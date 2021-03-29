@@ -1,8 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:training_app/presentation/history/history_model.dart';
 import 'package:training_app/presentation/signUp/sign_up_page.dart';
 
+import '../../common_func.dart';
 import '../app_page.dart';
 import 'main_model.dart';
 
@@ -55,17 +59,7 @@ class MyApp extends StatelessWidget {
                     ElevatedButton(
                       child: Text('ログインする'),
                       onPressed: () async {
-                        try {
-                          String uid = await model.loginAndReturnUid();
-                          //await _showDialog(context, 'ログインしました');
-                          await Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AppPage(uid)),
-                          );
-                        } catch (e) {
-                          _showDialog(context, e.toString());
-                        }
+                        model.login(context);
                       },
                     ),
                     ElevatedButton(

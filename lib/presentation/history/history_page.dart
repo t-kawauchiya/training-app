@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:training_app/presentation/exercise/exercise_page.dart';
+
+import 'history_add_page.dart';
 
 class HistoryPage extends StatelessWidget {
   String _uid = '';
@@ -17,11 +18,20 @@ class HistoryPage extends StatelessWidget {
         title: Text('HistoryPage'),
       ),
       body: _buildBody(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HistoryAddPage(_uid)),
+          );
+        },
+        tooltip: 'add work histories',
+        child: Icon(Icons.add),
+      ),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    //String _uid2 = FirebaseAuth.instance.currentUser!.uid;
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('users')
