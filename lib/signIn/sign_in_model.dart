@@ -1,63 +1,59 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../app_page.dart';
-import 'FirebaseAuthExceptionHandler.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:training_app/presentation/main/FirebaseAuthExceptionHandler.dart';
 
 class SignInModel extends ChangeNotifier {
   late BuildContext context;
   String mail = '';
   String password = '';
-  String _uid = '';
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final googleLogin = GoogleSignIn(scopes: [
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ]);
 
-  Future signInAndReturnUid() async {
+  void signInWithGoogle() async {
+    GoogleSignInAccount signInAccount = (await googleLogin.signIn())!;
+    GoogleSignInAuthentication auth = await signInAccount.authentication;
+    final credential = GoogleAuthProvider.credential(
+      idToken: auth.idToken,
+      accessToken: auth.accessToken,
+    );
+    FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  void signInWithEmail(context) async {
+    this.context = context;
     if (mail.isEmpty) {
       throw ('メールアドレスを入力してください');
     } else if (password.isEmpty) {
       throw ('パスワードを入力してください');
     } else {
-      User user = (await _auth.signInWithEmailAndPassword(
+      final FirebaseAuthResultStatus result = await _signInWithEmailLogic(
         email: mail,
         password: password,
-      ))
-          .user!;
-      return user.uid;
+      );
+
+      if (result == FirebaseAuthResultStatus.Successful) {
+        // ログイン成功時の処理なし
+      } else {
+        // ログイン失敗時の処理
+        final errorMessage =
+            FirebaseAuthExceptionHandler.exceptionMessage(result);
+
+        // エラー情報をユーザーに何かで通知
+        _showErrorDialog(context, errorMessage);
+      }
     }
   }
 
-  void login(context) async {
-    this.context = context;
-    final FirebaseAuthResultStatus result = await signIn(
-      email: mail,
-      password: password,
-    );
-
-    if (result == FirebaseAuthResultStatus.Successful) {
-      // ログイン成功時の処理
-      await Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AppPage(_uid),
-          ));
-    } else {
-      // ログイン失敗時の処理
-      final errorMessage =
-          FirebaseAuthExceptionHandler.exceptionMessage(result);
-
-      // エラー情報をユーザーに何かで通知
-      _showErrorDialog(context, errorMessage);
-    }
-  }
-
-  Future<FirebaseAuthResultStatus> signIn(
+  Future<FirebaseAuthResultStatus> _signInWithEmailLogic(
       {required String email, required String password}) async {
     FirebaseAuthResultStatus result;
     try {
       final UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      _uid = userCredential.user!.uid;
 
       if (userCredential.user == null) {
         // ユーザーが取得できなかったとき
