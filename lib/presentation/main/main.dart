@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: 'example@example.com',
                       ),
+                      obscureText: false,
                       controller: mailController,
                       onChanged: (text) {
                         model.mail = text;

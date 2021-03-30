@@ -25,19 +25,27 @@ class _AppPageState extends State<AppPage> {
     });
   }
 
-  List<Widget> buildPageList() {
-    return <Widget>[
+  // List<Widget> buildPageList() {
+  //   return <Widget>[
+  //     ProfilePage(),
+  //     HistoryPage(_uid),
+  //     WorkoutPage(),
+  //     ExercisePage(),
+  //     MeasurePage(),
+  //   ];
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    // List<Widget> _pageList = buildPageList();
+    var _pageList = [
       ProfilePage(),
       HistoryPage(_uid),
       WorkoutPage(),
       ExercisePage(),
       MeasurePage(),
     ];
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> _pageList = buildPageList();
     return Scaffold(
       body: _pageList[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -51,31 +59,31 @@ class _AppPageState extends State<AppPage> {
             icon: Icon(
               Icons.account_box,
             ),
-            label: 'Home',
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.access_time,
             ),
-            label: 'Business',
+            label: 'XXX',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.add_outlined,
             ),
-            label: 'Business',
+            label: 'XXX',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.business,
             ),
-            label: 'Business',
+            label: 'Exercise',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.business,
             ),
-            label: 'Business',
+            label: 'Measure',
           ),
         ],
         onTap: _onItemTapped,

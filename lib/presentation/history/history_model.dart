@@ -3,16 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:training_app/domain/history.dart';
 
 class HistoryModel extends ChangeNotifier {
-  final uid = '';
+  @override
+  HistoryModel(String uid) {
+    this._uid = uid;
+  }
+  var _uid = '';
   var history = History('', DateTime.now());
-  CollectionReference histories =
-      FirebaseFirestore.instance.collection('history');
 
   Future addHistory() async {
+    CollectionReference histories = FirebaseFirestore.instance
+        .collection('users')
+        .doc(_uid)
+        .collection('histories');
     if (history.title.isEmpty) {
       throw ('titleを入力してください');
     }
-    return histories
+    histories
         .add(
           {
             'title': history.title,
@@ -20,6 +26,8 @@ class HistoryModel extends ChangeNotifier {
           },
         )
         .then((value) => print("History added"))
-        .catchError((error) => print("Failed to add history: $error"));
+        .catchError(
+          (error) => print("Failed to add history: $error"),
+        );
   }
 }

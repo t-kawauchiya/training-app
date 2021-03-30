@@ -3,18 +3,22 @@ import 'package:flutter/material.dart';
 
 class MeasurePage extends StatelessWidget {
   Widget build(BuildContext context) {
+    // var titleController = TextEditingController();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('MeasurePage'),
-      ),
-      body: Container(
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('MeasurePage'),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(
+            // autofocus: false,
+            // decoration: InputDecoration(
+            //   hintText: 'title',
+            // ),
+            // controller: titleController,
+            onChanged: (text) {
+              //model.history.title = text;
+            },
+          ),
+        ],
       ),
     );
   }
