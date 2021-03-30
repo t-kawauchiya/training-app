@@ -65,13 +65,13 @@ class _AppPageState extends State<AppPage> {
             icon: Icon(
               Icons.access_time,
             ),
-            label: 'XXX',
+            label: 'History',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.add_outlined,
             ),
-            label: 'XXX',
+            label: 'workout',
           ),
           BottomNavigationBarItem(
             icon: Icon(
