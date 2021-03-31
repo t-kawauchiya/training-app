@@ -16,7 +16,6 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('ProfilePage'),
             ElevatedButton(
                 onPressed: () {
                   _handleSignOut().catchError((e) => print(e));

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:training_app/presentation/workout/workout_add_page.dart';
 
 class WorkoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -12,7 +13,15 @@ class WorkoutPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('WorkoutPage'),
+            ElevatedButton(
+              child: Text('Start Workout!!'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WorkoutAddPage()),
+                );
+              },
+            ),
           ],
         ),
       ),

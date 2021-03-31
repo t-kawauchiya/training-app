@@ -3,8 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import 'history_add_page.dart';
-
 class HistoryPage extends StatelessWidget {
   final String _uid;
   @override
@@ -16,16 +14,6 @@ class HistoryPage extends StatelessWidget {
         title: Text('HistoryPage'),
       ),
       body: _buildBody(context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HistoryAddPage(_uid)),
-          );
-        },
-        tooltip: 'add work histories',
-        child: Icon(Icons.add),
-      ),
     );
   }
 
@@ -54,9 +42,13 @@ class HistoryPage extends StatelessWidget {
       children: histories
           .map(
             (doc) => Card(
-              child: ListTile(
-                title: Text(doc['title']),
-                subtitle: Text(timeago.format(doc['date'].toDate())),
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(doc['title']),
+                    subtitle: Text(timeago.format(doc['date'].toDate())),
+                  ),
+                ],
               ),
             ),
           )

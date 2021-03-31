@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:training_app/domain/history.dart';
 
-class HistoryModel extends ChangeNotifier {
+class WorkoutModel extends ChangeNotifier {
   @override
-  HistoryModel(String uid) {
+  WorkoutModel(String uid) {
     this._uid = uid;
+    this.history = History.init();
   }
   var _uid = '';
-  var history = History('', DateTime.now());
+  var history;
 
   Future addHistory() async {
     CollectionReference histories = FirebaseFirestore.instance
@@ -20,10 +21,7 @@ class HistoryModel extends ChangeNotifier {
     }
     histories
         .add(
-          {
-            'title': history.title,
-            'date': history.date,
-          },
+          history.toMap(),
         )
         .then((value) => print("History added"))
         .catchError(
