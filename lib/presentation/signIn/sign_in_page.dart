@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
+import 'package:training_app/presentation/signIn/sign_in_model.dart';
 import 'package:training_app/presentation/signUp/sign_up_page.dart';
-import 'package:training_app/signIn/sign_in_model.dart';
 
 class SignInPage extends StatelessWidget {
   @override

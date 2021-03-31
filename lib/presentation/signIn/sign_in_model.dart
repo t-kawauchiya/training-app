@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,19 +9,37 @@ class SignInModel extends ChangeNotifier {
   String mail = '';
   String password = '';
 
-  static final googleLogin = GoogleSignIn(scopes: [
-    'email',
-    'https://www.googleapis.com/auth/contacts.readonly',
-  ]);
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
 
   void signInWithGoogle() async {
-    GoogleSignInAccount signInAccount = (await googleLogin.signIn())!;
+    GoogleSignInAccount signInAccount = (await _googleSignIn.signIn())!;
     GoogleSignInAuthentication auth = await signInAccount.authentication;
     final credential = GoogleAuthProvider.credential(
       idToken: auth.idToken,
       accessToken: auth.accessToken,
     );
-    FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    var _currentUser = FirebaseAuth.instance.currentUser!;
+
+    var user = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_currentUser.uid)
+        .get();
+    // ログインしたユーザが未登録の場合、firestoreに追加
+    if (!user.exists) {
+      FirebaseFirestore.instance.collection('users').doc(_currentUser.uid).set(
+        {
+          'email': _currentUser.email,
+          'createdAt': Timestamp.now(),
+          'uid': _currentUser.uid,
+        },
+      );
+    }
   }
 
   void signInWithEmail(context) async {
