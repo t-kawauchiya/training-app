@@ -5,7 +5,7 @@ class WorkEvent {
   DocumentReference? reference;
 
   @override
-  WorkEvent(String name, DateTime date) {
+  WorkEvent(String name) {
     this.name = name;
   }
 

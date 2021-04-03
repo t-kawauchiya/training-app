@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:training_app/domain/history.dart';
 
 class HistoryPage extends StatelessWidget {
   final String _uid;
@@ -35,18 +36,31 @@ class HistoryPage extends StatelessWidget {
     );
   }
 
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> histories) {
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshots) {
+    var _histories = snapshots.map((e) => History.fromMap(e.data()!)).toList();
     return ListView(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      children: histories
+      children: _histories
           .map(
-            (doc) => Card(
+            (_history) => Card(
               child: Column(
                 children: [
                   ListTile(
-                    title: Text(doc['title']),
-                    subtitle: Text(timeago.format(doc['date'].toDate())),
+                    title: Text(_history.title),
+                    subtitle: Text(timeago.format(_history.date)),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: (_history.exercises)
+                            .map((e) => Text(e.event.toString()))
+                            .toList(),
+                      ),
+                    ),
                   ),
                 ],
               ),

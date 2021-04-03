@@ -4,7 +4,8 @@ import 'package:training_app/domain/exercise.dart';
 class History {
   String title = '';
   DateTime date = DateTime.now();
-  List<Exercise> exercises = [Exercise.init()];
+  List<Exercise> exercises = List.generate(
+      3, (index) => Exercise.init()); //List.filled(3, Exercise.init());
   DocumentReference? reference;
 
   @override
@@ -21,7 +22,7 @@ class History {
         assert(map['date'] != null),
         title = map['title'],
         date = map['date'].toDate(),
-        exercises = (map['exercises'] as List<Map<String, dynamic>>)
+        exercises = (map['exercises'] as List<dynamic>)
             .map((exercise) => Exercise.fromMap(exercise))
             .toList();
 

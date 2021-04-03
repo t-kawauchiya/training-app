@@ -5,18 +5,23 @@ import 'package:provider/provider.dart';
 import 'package:training_app/common_func.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:training_app/domain/exercise.dart';
+import 'package:training_app/domain/work.dart';
 
 import 'workout_model.dart';
 
 class WorkoutAddPage extends StatelessWidget {
   final _uid = FirebaseAuth.instance.currentUser!.uid;
+  final workoutModel = WorkoutModel(FirebaseAuth.instance.currentUser!.uid);
   final formatter = new DateFormat('yyyy/MM/dd(E) HH:mm');
+  final eventControllers =
+      List.generate(10, (index) => TextEditingController());
+  final weightControllers =
+      List.generate(10, (index) => TextEditingController());
+  final repsControllers = List.generate(10, (index) => TextEditingController());
 
   Widget build(BuildContext context) {
     var titleController = TextEditingController();
-    var eventController = TextEditingController();
-    var weightController = TextEditingController();
-    var repsController = TextEditingController();
     return ChangeNotifierProvider<WorkoutModel>(
       create: (_) => WorkoutModel(_uid),
       child: Scaffold(
@@ -68,49 +73,12 @@ class WorkoutAddPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: 300,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: 'workout event',
-                              ),
-                              controller: eventController,
-                              onChanged: (text) {
-                                model.history.exercises[0].event.name = text;
-                              },
-                            ),
-                          ),
-                          Row(children: [
-                            SizedBox(
-                              width: 150,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'weight',
-                                ),
-                                controller: weightController,
-                                onChanged: (text) {
-                                  model.history.exercises[0].works[0].weight =
-                                      int.parse(text);
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              width: 150,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'reps',
-                                ),
-                                controller: repsController,
-                                onChanged: (text) {
-                                  model.history.exercises[0].works[0].reps =
-                                      int.parse(text);
-                                },
-                              ),
-                            ),
-                          ])
-                        ],
+                      _buildEventList(model, context, model.history.exercises),
+                      TextButton(
+                        onPressed: () {
+                          model.showMoreExercise();
+                        },
+                        child: Text('add event'),
                       ),
                       ElevatedButton(
                         child: Text('finish!!'),
@@ -132,6 +100,87 @@ class WorkoutAddPage extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildEventList(
+      WorkoutModel model, BuildContext context, List<Exercise> exercises) {
+    List<Widget> widgets = [];
+    for (int i = 0; i < model.visibleExerciseIndex; i++) {
+      widgets.add(_buildEvent(model, context, i));
+    }
+
+    return Column(
+      children: widgets,
+    );
+  }
+
+  Widget _buildEvent(
+      WorkoutModel model, BuildContext context, int exerciseIndex) {
+    return Visibility(
+      visible: model.visibleExerciseIndex > exerciseIndex,
+      child: Column(
+        children: [
+          SizedBox(
+            width: 300,
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'event',
+              ),
+              controller: eventControllers[exerciseIndex],
+              onChanged: (text) {
+                model.history.exercises[exerciseIndex].event.name = text;
+                print(eventControllers[exerciseIndex].toString());
+              },
+            ),
+          ),
+          Column(
+            children: model.history.exercises[exerciseIndex].works
+                .sublist(0, model.workVisibleIndex[exerciseIndex])
+                .map((work) => _buildWorks(work))
+                .toList(),
+          ),
+          TextButton(
+            onPressed: () {
+              model.showMoreWork(exerciseIndex);
+            },
+            child: Text('add work'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWorks(Work work) {
+    var weightController = new TextEditingController();
+    var repsController = new TextEditingController();
+    return Row(
+      children: [
+        SizedBox(
+          width: 150,
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'weight',
+            ),
+            controller: weightController,
+            onChanged: (text) {
+              work.weight = int.parse(text);
+            },
+          ),
+        ),
+        SizedBox(
+          width: 150,
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'reps',
+            ),
+            controller: repsController,
+            onChanged: (text) {
+              work.reps = int.parse(text);
+            },
+          ),
+        ),
+      ],
     );
   }
 }
